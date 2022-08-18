@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	util "github.com/rotem-ester/office-reservation-app/service/pkg/util"
 )
 
 const DATE_LAYOUT = "2006-01-02"
@@ -31,6 +33,7 @@ type (
 )
 
 func (or *OfficeReservation) GetMonthlyRevenue(year int, month time.Month) int {
+	
 	return 0
 }
 
@@ -39,7 +42,8 @@ func (or *OfficeReservation) getReservedDaysPerMonth(year int, month time.Month)
 }
 
 func (or *OfficeReservation) getDailyPriceByMonth(year int, month time.Month) int {
-	return 0
+	days := util.GetDaysNumByYearAndMonth(year, month)
+	return or.MonthlyPrice / days
 }
 
 func (ors *OfficeReservationService) ParseData(data [][]string) error {
