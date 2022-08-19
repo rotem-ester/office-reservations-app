@@ -1,5 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/rotem/office-reservations-app/service'
-go build -o or_service.out main.go types.go file_util.go
-make: Leaving directory `/Users/rotem/office-reservations-app/service'
- 
