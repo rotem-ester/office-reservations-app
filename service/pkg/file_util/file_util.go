@@ -1,4 +1,4 @@
-package util
+package file_util
 
 import (
 	"encoding/csv"
