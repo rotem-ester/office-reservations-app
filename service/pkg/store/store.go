@@ -4,7 +4,7 @@ var s Store
 
 type Store struct {
 	DataFilePath string
-	RevenueRequestParams []string
+	RequestParams []string
 }
 
 func Get() *Store {
@@ -13,5 +13,5 @@ func Get() *Store {
 
 func init() {
 	s.DataFilePath = "./rent_data.txt"
-	s.RevenueRequestParams = []string{ "year", "month" }
+	s.RequestParams = []string{ "year", "month" }
 }

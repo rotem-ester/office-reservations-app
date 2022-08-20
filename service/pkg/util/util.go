@@ -28,8 +28,8 @@ func ParseQueryParams(rawUrl *url.URL) (url.Values, error) {
 	return params, nil
 }
 
-func EnsureRevenueParams(params url.Values) error {
-	for _, param := range store.Get().RevenueRequestParams {
+func EnsureParams(params url.Values) error {
+	for _, param := range store.Get().RequestParams {
 		if params[param] == nil {
 			return fmt.Errorf("missing param '%s' in request for revenue", param)
 		}
@@ -38,7 +38,7 @@ func EnsureRevenueParams(params url.Values) error {
 	return nil
 }
 
-func ParseRevenueParams(params url.Values) (int, time.Month, error) {
+func ParseParams(params url.Values) (int, time.Month, error) {
 	year, err := strconv.Atoi(params["year"][0])
 	if err != nil {
 		return 0, 0, fmt.Errorf("invalid year param")

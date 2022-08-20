@@ -3,6 +3,7 @@ package office_reservation
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -27,34 +28,31 @@ type (
 )
 
 func (ors *OfficeReservationService) RevenueHandler(w http.ResponseWriter, r *http.Request) {
-	params, err := util.ParseQueryParams(r.URL)
-	if err != nil {
-		fmt.Printf("failed parsing revenue query params: %s", err.Error())
-		http.Error(w, "failed parsing query params", http.StatusInternalServerError)
-	}
-
-	if err = util.EnsureRevenueParams(params); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-
-	year, month, err := util.ParseRevenueParams(params)
+	year, month, err := getParams(r.URL)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
 	res := ors.GetExpectedRevenueForMonth(year, month)
-	
+
 	fmt.Fprintf(w, "%v", res)
 }
 
 func (ors *OfficeReservationService) CapacityHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "capacity handler")
+	year, month, err := getParams(r.URL)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	res := ors.GetExpectedCapacityForMonth(year, month)
+
+	fmt.Fprintf(w, "%v", res)
 }
 
 func (ors *OfficeReservationService) ParseData(data [][]string) error {
 	var reservations []OfficeReservation
 	var err error
-	
+
 	for i, line := range data {
 		if i > 0 {
 			var or OfficeReservation
@@ -82,7 +80,7 @@ func (ors *OfficeReservationService) ParseData(data [][]string) error {
 				}
 
 				if j == 3 {
-					if val != ""{
+					if val != "" {
 						or.EndDay, err = time.Parse(DATE_LAYOUT, strings.TrimSpace(val))
 						if err != nil {
 							return fmt.Errorf("failed to parse value from data. error: %w", err)
@@ -118,4 +116,22 @@ func (ors *OfficeReservationService) GetExpectedCapacityForMonth(year int, month
 	}
 
 	return totalCapacity
+}
+
+func getParams(rawUrl *url.URL) (int, time.Month, error) {
+	params, err := util.ParseQueryParams(rawUrl)
+	if err != nil {
+		return 0, 0, fmt.Errorf("failed parsing query params")
+	}
+
+	if err = util.EnsureParams(params); err != nil {
+		return 0, 0, err
+	}
+
+	year, month, err := util.ParseParams(params)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return year, month, nil
 }
