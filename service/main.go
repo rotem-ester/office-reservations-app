@@ -26,9 +26,9 @@ func main(){
 	f.Close()
 	err = ors.ParseData(data)
 	if err != nil {
-		log.Fatalf("failed to parse data from csv file: %s", err.Error())
+		log.Fatalf("failed to load data from csv file: %s", err.Error())
 	}
-	log.Println("data was loaded from file seccessfully")
+	log.Println("data was loaded from file successfully")
 
 	fmt.Print(ors.Reservations)
 }
