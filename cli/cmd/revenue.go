@@ -19,14 +19,20 @@ func NewRevenueCommand() *cobra.Command {
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return RunRevenueCommand(args)
+			res, err := RunRevenueCommand(args)
+			if err != nil {
+				return err
+			}
+
+			fmt.Printf("%s-%s: expected revenue: $%s\n", args[0], args[1], res)
+			return nil
 		},
 	}
 
 	return cmd
 }
 
-func RunRevenueCommand(args []string) error {
+func RunRevenueCommand(args []string) (string, error) {
 	// TODO add args validation
 	params := []httpUtil.QueryParam{
 		{
@@ -41,12 +47,16 @@ func RunRevenueCommand(args []string) error {
 
 	res, err := httpUtil.MakeHttpGetRequest("/revenue", params)
 	if err != nil {
-		return fmt.Errorf("request to server failed: %w", err)
+		return "", fmt.Errorf("request to server failed: %w", err)
 	}
 
 	body, err := io.ReadAll(res.Body)
 	strRes := string(body)
 
-	fmt.Printf("%s-%s: expected revenue: $%s\n", args[0], args[1], strRes)
-	return nil
+	if res.StatusCode > 200 {
+		return "", fmt.Errorf("request failed with %s: %s", res.Status, strRes)
+	}
+
+	
+	return strRes, nil
 }

@@ -15,6 +15,8 @@ func NewRoot() *cobra.Command {
 	}
 
 	cmd.AddCommand(NewRevenueCommand())
+	cmd.AddCommand(NewCapacityCommand())
+	cmd.AddCommand(NewMonthlyCommand())
 
 	return cmd
 }
