@@ -11,7 +11,7 @@ import (
 func NewCapacityCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "capacity 2014 02",
-		Short: "capacity information about expected total capacity of the unreserved offices for a specific month",
+		Short: "information about expected total capacity of the unreserved offices for a specific month",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) < 2 {
 				return fmt.Errorf("please provide the requiered args")

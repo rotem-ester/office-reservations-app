@@ -27,6 +27,8 @@ type (
 	}
 )
 
+const DATE_LAYOUT = "2006-01-02"
+
 func (ors *OfficeReservationService) RevenueHandler(w http.ResponseWriter, r *http.Request) {
 	year, month, err := getParams(r.URL)
 	if err != nil {

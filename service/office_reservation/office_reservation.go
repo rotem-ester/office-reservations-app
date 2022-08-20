@@ -6,20 +6,16 @@ import (
 	util "github.com/rotem-ester/office-reservation-app/service/pkg/util"
 )
 
-const DATE_LAYOUT = "2006-01-02"
-
-type (
-	OfficeReservation struct {
-		Capacity     int
-		MonthlyPrice int
-		StartDay     time.Time
-		EndDay       time.Time
-	}
-)
+type OfficeReservation struct {
+	Capacity     int
+	MonthlyPrice int
+	StartDay     time.Time
+	EndDay       time.Time
+}
 
 func (or *OfficeReservation) getMonthlyRevenue(year int, month time.Month) int {
 	days := float64(or.getReservedDaysByMonth(year, month))
-	dailyPrice := or.getDailyPriceByMonth(year,month)
+	dailyPrice := or.getDailyPriceByMonth(year, month)
 
 	return int(days * dailyPrice)
 }
@@ -46,7 +42,7 @@ func (or *OfficeReservation) getReservedDaysByMonth(year int, month time.Month) 
 	if or.EndDay.After(monthEnd) || or.EndDay.IsZero() {
 		tempEndDay = monthEnd
 	}
-	
+
 	tempStartDay = tempStartDay.AddDate(0, 0, -1) // we want to incluse the start day in the calculation
 	difference := tempEndDay.Sub(tempStartDay)
 	return int(difference.Hours() / 24)
