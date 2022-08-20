@@ -2,9 +2,12 @@ package office_reservation
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/rotem-ester/office-reservation-app/service/pkg/util"
 )
 
 type (
@@ -12,12 +15,41 @@ type (
 		Reservations []OfficeReservation
 	}
 
+	OfficeReservationServiceHandlers interface {
+		RevenueHandler(w http.ResponseWriter, r *http.Request)
+		CapacityHandler(w http.ResponseWriter, r *http.Request)
+	}
 	OfficeReservationServiceOps interface {
 		ParseData(data [][]string) error
 		GetExpectedRevenueForMonth(year int, month time.Month) int
 		GetExpectedCapacityForMonth(year int, month time.Month) int
 	}
 )
+
+func (ors *OfficeReservationService) RevenueHandler(w http.ResponseWriter, r *http.Request) {
+	params, err := util.ParseQueryParams(r.URL)
+	if err != nil {
+		fmt.Printf("failed parsing revenue query params: %s", err.Error())
+		http.Error(w, "failed parsing query params", http.StatusInternalServerError)
+	}
+
+	if err = util.EnsureRevenueParams(params); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	year, month, err := util.ParseRevenueParams(params)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	res := ors.GetExpectedRevenueForMonth(year, month)
+	
+	fmt.Fprintf(w, "%v", res)
+}
+
+func (ors *OfficeReservationService) CapacityHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "capacity handler")
+}
 
 func (ors *OfficeReservationService) ParseData(data [][]string) error {
 	var reservations []OfficeReservation

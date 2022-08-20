@@ -136,7 +136,7 @@ func TestOfficeReservation_getReservedDaysByMonth(t *testing.T) {
 	}
 }
 
-func TestOfficeReservation_GetMonthlyRevenue(t *testing.T) {
+func TestOfficeReservation_getMonthlyRevenue(t *testing.T) {
 	type fields struct {
 		Capacity     int
 		MonthlyPrice int
@@ -260,7 +260,7 @@ func TestOfficeReservation_GetMonthlyRevenue(t *testing.T) {
 				StartDay:     tt.fields.StartDay,
 				EndDay:       tt.fields.EndDay,
 			}
-			if got := or.GetMonthlyRevenue(tt.args.year, tt.args.month); got != tt.want {
+			if got := or.getMonthlyRevenue(tt.args.year, tt.args.month); got != tt.want {
 				t.Errorf("OfficeReservation.GetMonthlyRevenue() = %v, want %v", got, tt.want)
 			}
 		})

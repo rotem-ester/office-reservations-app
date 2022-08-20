@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 	"log"
 	"os"
 
@@ -30,5 +30,12 @@ func main(){
 	}
 	log.Println("data was loaded from file successfully")
 
-	fmt.Print(ors.Reservations)
+	http.HandleFunc("/revenue", ors.RevenueHandler)
+	http.HandleFunc("/capacity", ors.CapacityHandler)
+
+	log.Println("Starting to listen on port 8080")
+	err = http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
