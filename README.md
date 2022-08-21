@@ -1,7 +1,7 @@
 # office-reservations-app
 get monthly information about office reservations for a specific month
 
-# service
+# Service
 to run the service, cd to ./service and run `make build` to build the binary.  
 the service default port is 8080, you can provide a different port via a command line argument:  
 `./or_service.out 3000` for example.  
@@ -18,7 +18,7 @@ if you run your service on a different host/port than the default (`http://local
 `./ofre revenue <year> <month>` will retrieve info about revenue only  
 `./ofre capacity <year> <month>` will retrieve info about capacity only
 
-# Example results:
+## Example results:
 
 2013-01: expected revenue: $8100, expected total capacity of the unreserved offices: 254  
   
