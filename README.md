@@ -1,5 +1,8 @@
-# office-reservations-app
+# Office reservations app
 get monthly information about office reservations for a specific month
+
+## Prequisits
+download and install go: https://go.dev/doc/install  
 
 # Service
 to run the service, cd to ./service and run `make build` to build the binary.  
