@@ -6,11 +6,18 @@ import (
 	"os"
 )
 
-func LoadCsv(file *os.File) ([][]string, error) {
-	csvReader := csv.NewReader(file)
+func LoadCsv(filePath string) ([][]string, error) {
+	f, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open csv file. error: %w", err)
+	}
+
+	defer f.Close()
+
+	csvReader := csv.NewReader(f)
 	data, err := csvReader.ReadAll()
 	if err != nil {
-		return nil, fmt.Errorf("failed to read csv file: '%s'. error: %w", file.Name(), err)
+		return nil, fmt.Errorf("failed to read csv file: '%s'. error: %w", f.Name(), err)
 	}
 
 	return data, nil

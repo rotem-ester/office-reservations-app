@@ -5,6 +5,7 @@ import (
 	"io"
 
 	httpUtil "github.com/rotem-ester/office-reservations-app/cli/pkg/http_util"
+	"github.com/rotem-ester/office-reservations-app/cli/pkg/util"
 	"github.com/spf13/cobra"
 )
 
@@ -33,16 +34,9 @@ func NewRevenueCommand() *cobra.Command {
 }
 
 func RunRevenueCommand(args []string) (string, error) {
-	// TODO add args validation
-	params := []httpUtil.QueryParam{
-		{
-			Key: "year",
-			Value: args[0],
-		},
-		{
-			Key: "month",
-			Value: args[1],
-		},
+	params, err := util.ParseArgs(args)
+	if err != nil {
+		return "", err
 	}
 
 	res, err := httpUtil.MakeHttpGetRequest("/revenue", params)
@@ -57,6 +51,5 @@ func RunRevenueCommand(args []string) (string, error) {
 		return "", fmt.Errorf("request failed with %s: %s", res.Status, strRes)
 	}
 
-	
 	return strRes, nil
 }

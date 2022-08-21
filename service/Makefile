@@ -3,8 +3,7 @@ BINARY_NAME=or_service.out
 build:
 	go build -o ${BINARY_NAME} main.go
  
-run:
-	go build -o ${BINARY_NAME} main.go
+run: build
 	./${BINARY_NAME}
  
 clean:

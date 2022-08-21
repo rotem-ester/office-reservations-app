@@ -10,7 +10,10 @@ import (
 )
 
 func GetDaysNumByYearAndMonth(year int, month time.Month) int {
+	// the first day of the month
 	t := time.Date(year, month, 1, 23, 0, 0, 0, time.UTC)
+
+	// adding one month and subtracting one day will give the last day of the given month
 	t = t.AddDate(0, 1, -1)
 	return t.Day()
 }
@@ -20,6 +23,7 @@ func ParseQueryParams(rawUrl *url.URL) (url.Values, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse request URL: %w", err)
 	}
+
 	params, err := url.ParseQuery(u.RawQuery)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse query params: %w", err)
@@ -41,7 +45,7 @@ func EnsureParams(params url.Values) error {
 func ParseParams(params url.Values) (int, time.Month, error) {
 	year, err := strconv.Atoi(params["year"][0])
 	if err != nil {
-		return 0, 0, fmt.Errorf("invalid year param")
+		return 0, 0, fmt.Errorf("error parsing year param: %w", err)
 	}
 
 	monthNum, err := strconv.Atoi(params["month"][0])

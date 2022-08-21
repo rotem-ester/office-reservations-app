@@ -17,6 +17,8 @@ func NewRoot() *cobra.Command {
 	cmd.AddCommand(NewRevenueCommand())
 	cmd.AddCommand(NewCapacityCommand())
 	cmd.AddCommand(NewMonthlyCommand())
-
+	
+	cmd.PersistentFlags().StringVar(&store.Get().ServerUrl, "server-url", store.Get().ServerUrl, "the server url, including protocol and without trailing slash")
+	
 	return cmd
 }

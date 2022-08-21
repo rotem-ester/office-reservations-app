@@ -5,6 +5,7 @@ import (
 	"io"
 
 	httpUtil "github.com/rotem-ester/office-reservations-app/cli/pkg/http_util"
+	"github.com/rotem-ester/office-reservations-app/cli/pkg/util"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +15,7 @@ func NewCapacityCommand() *cobra.Command {
 		Short: "information about expected total capacity of the unreserved offices for a specific month",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) < 2 {
-				return fmt.Errorf("please provide the requiered args")
+				return fmt.Errorf("please provide the requiered args (year - YYYY, month - MM")
 			}
 			return nil
 		},
@@ -33,16 +34,9 @@ func NewCapacityCommand() *cobra.Command {
 }
 
 func RunCapacityCommand(args []string) (string, error) {
-	// TODO add args validation
-	params := []httpUtil.QueryParam{
-		{
-			Key: "year",
-			Value: args[0],
-		},
-		{
-			Key: "month",
-			Value: args[1],
-		},
+	params, err := util.ParseArgs(args) 
+	if err != nil {
+		return "", err
 	}
 
 	res, err := httpUtil.MakeHttpGetRequest("/capacity", params)

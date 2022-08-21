@@ -1,8 +1,9 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	or "github.com/rotem-ester/office-reservation-app/service/office_reservation"
@@ -12,18 +13,23 @@ import (
 
 func main(){
 	var ors or.OfficeReservationService
+	port := store.Get().Port
+	dataFilePath := store.Get().DataFilePath
 
-	f, err := os.Open(store.Get().DataFilePath)
-	if err != nil {
-		log.Fatalf("failed to open csv file. error: %s", err.Error())
+	args := os.Args[1:]
+	if len(args) > 0 {
+		port = args[0]
 	}
 
-	data, err := fileUtil.LoadCsv(f)
+	if len(args) > 1 {
+		dataFilePath = args[1]
+	}
+
+	data, err := fileUtil.LoadCsv(dataFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	f.Close()
 	err = ors.ParseData(data)
 	if err != nil {
 		log.Fatalf("failed to load data from csv file: %s", err.Error())
@@ -33,8 +39,9 @@ func main(){
 	http.HandleFunc("/revenue", ors.RevenueHandler)
 	http.HandleFunc("/capacity", ors.CapacityHandler)
 
-	log.Println("Starting to listen on port 8080")
-	err = http.ListenAndServe(":8080", nil)
+	log.Printf("Starting to listen on port %s\n", port)
+	formatPort := fmt.Sprintf(":%s", port)
+	err = http.ListenAndServe(formatPort, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

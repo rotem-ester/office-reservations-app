@@ -1,12 +1,10 @@
 package store
 
-import "os"
-
 var s Store
 
 type Store struct {
 	BinaryName string
-	ServerHost string
+	ServerUrl string
 }
 
 func Get() *Store {
@@ -15,9 +13,5 @@ func Get() *Store {
 
 func init() {
 	s.BinaryName = "ofre"
-	s.ServerHost = "localhost:8080"
-	val, isExists := os.LookupEnv("OFRE_HOST")
-	if isExists {
-		s.ServerHost = val
-	}
+	s.ServerUrl = "http://localhost:8080"
 }

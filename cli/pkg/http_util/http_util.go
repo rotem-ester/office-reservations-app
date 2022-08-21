@@ -13,8 +13,8 @@ type QueryParam struct {
 }
 
 func MakeHttpGetRequest(path string, params []QueryParam) (*http.Response, error) {
-	qp := ParamsToQuery(params)
-	url := fmt.Sprintf("http://%s%s%s", store.Get().ServerHost, path, qp)
+	qp := ParamsToQuery(params)	
+	url := fmt.Sprintf("%s%s%s", store.Get().ServerUrl, path, qp)
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, err
