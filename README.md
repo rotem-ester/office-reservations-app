@@ -10,7 +10,8 @@ to initiate the service with the default values: `./or_service.out`
 
 # CLI
 cd into ./cli and run `make build` to build the binary.  
-to get information about office reservations for a given month, run `./ofre monthly <year in format YYY> <month in format MM>`.  
+to get information about office reservations for a given month,  
+run `./ofre monthly <year in format YYY> <month in format MM>`.  
 if you run your service on a different host/port than the default (`http://localhost:8080`), provide the full service url via the flag `--service-url`.
 
 ## Other options:
