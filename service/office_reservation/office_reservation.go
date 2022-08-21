@@ -43,7 +43,7 @@ func (or *OfficeReservation) getReservedDaysByMonth(year int, month time.Month) 
 		tempEndDay = monthEnd
 	}
 
-	tempStartDay = tempStartDay.AddDate(0, 0, -1) // we want to incluse the start day in the calculation
+	tempStartDay = tempStartDay.AddDate(0, 0, -1) // we want to include the start day in the calculation
 	difference := tempEndDay.Sub(tempStartDay)
 	return int(difference.Hours() / 24)
 }
