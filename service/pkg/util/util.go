@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"net/url"
+	"regexp"
 	"strconv"
 	"time"
 
@@ -47,10 +48,16 @@ func ParseParams(params url.Values) (int, time.Month, error) {
 	if err != nil {
 		return 0, 0, fmt.Errorf("error parsing year param: %w", err)
 	}
+	if ok, _ := regexp.MatchString("^([0-9]{4})$", params["year"][0]); !ok {
+		return 0, 0, fmt.Errorf("invalid year param. please provide a year with format YYYY")
+	}
 
 	monthNum, err := strconv.Atoi(params["month"][0])
+	if err != nil {
+		return 0, 0, fmt.Errorf("error parsing month param: %w", err)
+	}
 	if monthNum < 1 || monthNum > 12 {
-		return 0, 0, fmt.Errorf("invalid month param")
+		return 0, 0, fmt.Errorf("invalid month param. please provide a month as number between 1-12")
 	}
 	
 	month := time.Month(monthNum)

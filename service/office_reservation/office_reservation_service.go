@@ -2,6 +2,7 @@ package office_reservation
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -30,25 +31,33 @@ type (
 const DATE_LAYOUT = "2006-01-02"
 
 func (ors *OfficeReservationService) RevenueHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("recieved request for revenue info")
 	year, month, err := getParams(r.URL)
 	if err != nil {
+		log.Printf("request error: %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	res := ors.GetExpectedRevenueForMonth(year, month)
 
 	fmt.Fprintf(w, "%v", res)
+	log.Printf("response sent with value: %v\n", res)
 }
 
 func (ors *OfficeReservationService) CapacityHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("recieved request for capacity info")
 	year, month, err := getParams(r.URL)
 	if err != nil {
+		log.Printf("request error: %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	res := ors.GetExpectedCapacityForMonth(year, month)
 
 	fmt.Fprintf(w, "%v", res)
+	log.Printf("response sent with value: %v\n", res)
 }
 
 func (ors *OfficeReservationService) ParseData(data [][]string) error {

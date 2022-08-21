@@ -8,7 +8,7 @@ import (
 )
 
 func ParseArgs(args []string) ([]httpUtil.QueryParam, error) {
-	if ok, _ := regexp.MatchString("[0-9]{4}", args[0]); !ok {
+	if ok, _ := regexp.MatchString("^([0-9]{4})$", args[0]); !ok {
 		return nil, fmt.Errorf("invalid year param. please provide a year with format YYYY")
 	}
 
