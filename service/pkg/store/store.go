@@ -1,14 +1,14 @@
 package store
 
-var s Store
+var s store
 
-type Store struct {
+type store struct {
 	Port          string
 	DataFilePath  string
 	RequestParams []string
 }
 
-func Get() *Store {
+func Get() *store {
 	return &s
 }
 

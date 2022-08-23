@@ -1,13 +1,13 @@
 package store
 
-var s Store
+var s store
 
-type Store struct {
+type store struct {
 	BinaryName string
 	ServerUrl string
 }
 
-func Get() *Store {
+func Get() *store {
 	return &s
 }
 

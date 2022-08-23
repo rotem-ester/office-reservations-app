@@ -74,23 +74,17 @@ func (ors *OfficeReservationService) ParseData(data [][]string) error {
 					if err != nil {
 						return fmt.Errorf("failed to parse value from data. error: %w", err)
 					}
-				}
-
-				if j == 1 {
+				} else if j == 1 {
 					or.MonthlyPrice, err = strconv.Atoi(strings.TrimSpace(val))
 					if err != nil {
 						return fmt.Errorf("failed to parse value from data. error: %w", err)
 					}
-				}
-
-				if j == 2 {
+				} else if j == 2 {
 					or.StartDay, err = time.Parse(DATE_LAYOUT, strings.TrimSpace(val))
 					if err != nil {
 						return fmt.Errorf("failed to parse value from data. error: %w", err)
 					}
-				}
-
-				if j == 3 {
+				} else if j == 3 {
 					if val != "" {
 						or.EndDay, err = time.Parse(DATE_LAYOUT, strings.TrimSpace(val))
 						if err != nil {
