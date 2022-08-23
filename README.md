@@ -1,7 +1,7 @@
 # Office reservations app
 get monthly information about office reservations for a specific month
 
-## Prequisits
+## Prerequisites
 download and install go: https://go.dev/doc/install  
 
 # Service
